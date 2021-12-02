@@ -1,0 +1,46 @@
+{% extends 'main/base.html.twig' %}
+{% block body %}
+    <div class="container">
+        <div class="row no-gutters justify-content-center mt-5">
+            <div class="col-12 justify-content-center">
+                <div class="card mb-3" style="max-width: 980px; border-radius: 10px">
+                    <h5 class="card-title p-3 m-0">{{ post.title }}</h5>
+                    <div class="row g-0 p-3">
+                        <div class="col-md-4">
+                            <img src="{{ asset('uploads/post/') }}{{ post.image }}" class="img-fluid rounded-start" alt="">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body p-0">
+                                <div class="mb-1">
+                                    <p class="card-text mb-2">Оценка: {{ post.rating }}/10</p>
+                                    {% if app.user %}
+                                        <a href="{{ path('main_comment_create', {'userId': app.user.id, 'postId': post.id}) }}" type="button" class="btn btn-warning">Создать комментарий</a>
+                                    {% else %}
+                                        <a href="#" type="button" class="btn btn-warning">Создать комментарий</a>
+                                    {% endif %}
+                                </div>                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="max-width: 980px; border-radius: 10px">
+                    {% if comments is empty %}
+                        <p class="card-text"><small class="text-muted">Комментариев не обнаружено</small></p>
+                    {% else %}
+                    
+                        {% for comment in post.comments %}
+                            <div class="card mb-3">
+                                <div class="card-header">{{ comment.user.fullName }}</div>
+                                <div class="card-body">
+                                    <p class="card-text"><small class="text-muted">{{ comment.content }}</small></p>
+                                </div>
+                            </div>
+                        {% endfor %}
+                        
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

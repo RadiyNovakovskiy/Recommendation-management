@@ -1,0 +1,69 @@
+{% extends 'admin/adminBase.html.twig' %}
+{% block body %}
+
+    <div class="container">
+        <div class="row no-gutters">
+            <div class="col-12">
+                <h1 class="display-4 text-center mt-5">{{ title }}</h1>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row no-gutters justify-content-center mt-3">
+            <div class="col-8">
+                {% for message in app.flashes('success') %}
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row no-gutters">
+            <div class="col-12">
+                {% if category is empty %}
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <p>Creating of posts is impossible! First create category!</p><hr>
+                        <a href="{{ path('admin_category_create')}}">Create category</a>
+                    </div>
+                {% else %}
+                    <div class="row no-gutters">
+                        {% for category_item in category %}
+                            {% for post in category_item.posts %}
+                                <div class="col-4 p-2">
+                                    <div class="card" style="width:150px;">
+                                        {% if post.image is null %}
+                                            <img class="card-img-top" src="" alt="First post image">
+                                        {% else %}
+                                            <img class="card-img-top" style="max-height:150px; overflow:hidden;" src="{{ asset('uploads/post/') }}{{post.image}}" alt="">
+                                        {% endif %}
+                                        <div class="card-body">
+                                            <h6 class="text-muted">{{ post.category.title }}</h6>
+                                            <h5 class="card-title">{{ post.title }}</h5>
+                                            <a href="{{ path('admin_post_update', {'postId': post.id}) }}" class="btn-link">Update</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        {% endfor %}
+                    </div> 
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row no-gutters">
+            {% if category is not empty %}
+                <div class="col-12 mt-5">
+                    <a href="{{ path('admin_post_create') }}" class="btn btn-success">Create post</a><br>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+{% endblock %}

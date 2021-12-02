@@ -1,0 +1,63 @@
+{% extends 'admin/adminBase.html.twig' %}
+{% block body %}
+
+    <div class="container">
+        <div class="row no-gutters">
+            <div class="col-12">
+                <h1 class="display-4 text-center mt-5">{{ title }}</h1>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row no-gutters justify-content-center">
+            <div class="col-8">
+                {% for message in app.flashes('success') %}
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row no-gutters">
+            <div class="col-12">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">№</th>
+                            <th scope="col">Title</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% if category is empty %}
+                        <tr>
+                            <td colspan="3" class="text-center"><span class="text-block-50">Categories was not created!</span></td>
+                        </tr>
+                    {% endif %}
+                        {% for category_item in category %}
+                            <tr>
+                                <td>{{ category_item.id }}</td>
+                                <td>{{ category_item.title }}</td>
+                                <td><a href="{{ path('admin_category_update', {'categoryId': category_item.id}) }}" class="btn btn-primary">Update</a></td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="row no-gutters">
+            <div class="col-12 mt-5">
+                <a href="{{ path('admin_category_create') }}" class="btn btn-success">Create category</a><br>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
